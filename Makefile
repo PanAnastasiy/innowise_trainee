@@ -6,29 +6,19 @@ ENV = --env-file .env
 CONTAINER_NAME =  docker_compose/pagila_docker/docker-compose.yml
 
 
-.PHONY: up down rebuild restart status clean logs
-
+.PHONY: up
 up:
-	@echo "🚀 Starting Innowise_Trainee containers..."
+	@echo "Starting $(PROJECT_NAME) containers..."
 	${DC} ${ENV} -f  {CONTAINER_NAME}  up -d
-	@echo "✅ Containers are up and running."
+	@echo "Containers are up and running."
 
+.PHONY: down
 down:
-	@echo "🛑 Stopping $(PROJECT_NAME) containers..."
+	@echo "Stopping $(PROJECT_NAME) containers..."
 	${DC} ${ENV} down
-	@echo "✅ Containers stopped."
+	@echo "Containers stopped."
 
+.PHONY: logs
 logs:
-	@echo "📜 Showing PostgreSQL logs..."
+	@echo "Showing PostgreSQL logs..."
 	${LOGS} ${DB_CONTAINER} -f
-
-.PHONY: psql tables
-
-psql:
-	@echo "💾 Connecting to PostgreSQL container..."
-	@docker ps | grep ${DB_CONTAINER} > /dev/null || (echo "❌ Container ${DB_CONTAINER} not running!"; exit 1)
-	${EXEC} ${DB_CONTAINER} psql -U ${PG_USER} -d ${DB_NAME}
-
-tables:
-	@echo "📋 Listing tables in database ${DB_NAME}..."
-	${EXEC} ${DB_CONTAINER} psql -U ${PG_USER} -d ${DB_NAME} -c '\dt'
