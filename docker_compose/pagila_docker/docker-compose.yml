@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: ${DB_CONTAINER}
+    env_file:
+      - ../../.env
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ${PGADMIN_CONTAINER}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    restart: always
