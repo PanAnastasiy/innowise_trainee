@@ -85,6 +85,8 @@ ORDER BY 3 DESC;
 -- where customer.address_id belongs to that city and starts with the letter "a".
 -- Do the same for cities containing the symbol "-". Write this in a single query.
 
+-- Больно... Тут join-ны столько хавают... (Nested Loop) Но подругому пока не знаю как это сделать. На досуге поищу.
+
 EXPLAIN ANALYZE
 (
     SELECT
