@@ -3,7 +3,7 @@ DC = docker compose
 EXEC = docker exec -it
 LOGS = docker logs
 ENV = --env-file .env
-COMPOSE_FILE = docker_compose/pagila_docker/docker-compose.yml
+COMPOSE_FILE = docker_compose/snowflake_docker/docker-compose.yml
 
 DB_CONTAINER := pagila_postgres
 
