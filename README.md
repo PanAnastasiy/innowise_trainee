@@ -21,3 +21,4 @@ Each task is independent and focuses on a specific Big Data skill.
 ### SQL Tasks
 
 Task 1: Using a demo database, write SQL queries to accomplish the following statements.
+Task 2: Determine and describe if it is possible to replace code with a kind of cycle in SQL procedure.
