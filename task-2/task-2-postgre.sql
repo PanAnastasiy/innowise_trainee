@@ -1,6 +1,4 @@
 
-
---
 CREATE OR REPLACE PROCEDURE test_2(
     p_param1 DATE,
     p_param2 TIMESTAMP,
@@ -9,11 +7,13 @@ CREATE OR REPLACE PROCEDURE test_2(
     LANGUAGE plpgsql
 AS $$
 BEGIN
-    -- Эммуляция работы процедуры
+    -- Emmulate working
     RAISE NOTICE 'Make it with Strawberry';
     RAISE NOTICE 'Procedure test_2 executed with: %, %, %', p_param1, p_param2, p_param3;
 END;
 $$;
+
+--🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓
 
 -- Data for procudure
 CREATE TEMP TABLE proc_params (
@@ -44,8 +44,9 @@ INSERT INTO proc_params VALUES
                             ('2025-06-26','2025-07-03 09:15:38.292950000','2025-06-19'),
                             ('2025-07-03','2025-07-07 10:53:30.915895000','2025-06-26');
 
+--🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓🍓
 
-
+-- Anonymous code block for a check
 DO $$
     DECLARE
         rec RECORD;
