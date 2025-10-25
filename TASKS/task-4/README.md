@@ -28,3 +28,4 @@
 ####  **  6. The command interface should support some input parameters **
 
 Архитектура решения разработана с использованием принципов ООП и SOLID, обеспечивая четкое разделение ответственности.
+
