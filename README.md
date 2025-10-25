@@ -18,8 +18,12 @@ Each task is independent and focuses on a specific Big Data skill.
 
 ## 📝 Tasks Overview
 
-### SQL Tasks
-
 Task 1: Using a demo database, write SQL queries to accomplish the following statements.
+
 Task 2: Determine and describe if it is possible to replace code with a kind of cycle in SQL procedure.
+
 Task 3: Simple tasks to learn the basic functions of Numpy and Pandas
+
+Task 4: The task requires building an OOP/SOLID-compliant Python application
+to load student and room data into a relational database, execute complex analytical SQL queries with index optimization,
+and output the results in a specified JSON or XML format.
