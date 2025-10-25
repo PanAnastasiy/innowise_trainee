@@ -1,4 +1,6 @@
 
+RESOURCE_DIR = '../../resources'
+
 DF_CSV_PATH = '../../resources/csv/adult.data.csv'
 NUMPY_CSV_PATH = '../../resources/csv/cereal.csv'
 

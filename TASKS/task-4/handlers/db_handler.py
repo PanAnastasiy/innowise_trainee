@@ -9,13 +9,12 @@ load_dotenv()
 
 class DBConnection:
     def __init__(self, host=None, port=None, database=None, user=None, password=None):
-        # Если параметры не переданы, берём их из .env
-        self.host = host or os.getenv("STUDENT_DB_HOST", "localhost")
-        self.port = port or int(os.getenv("STUDENT_DB_PORT", 5432))
-        self.database = database or os.getenv("STUDENT_DB_NAME", "student_db")
-        self.user = user or os.getenv("STUDENT_PG_USER", "root")
-        self.password = password or os.getenv("STUDENT_PG_PASSWORD", "root")
 
+        self.host = host or os.getenv("STUDENT_DB_HOST")
+        self.port = port or int(os.getenv("STUDENT_DB_PORT"))
+        self.database = database or os.getenv("STUDENT_DB_NAME")
+        self.user = user or os.getenv("STUDENT_PG_USER")
+        self.password = password or os.getenv("STUDENT_PG_PASSWORD")
         self.conn = None
         self.cursor = None
 
