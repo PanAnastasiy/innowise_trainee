@@ -1,13 +1,22 @@
 import argparse
+import os
+import sys
 
-from consts import RESOURCE_DIR
-from handlers import *
-from data_manager import *
+# Правильно определяем корень проекта
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+
+from data_manager.executer import Executer
+from data_manager.reporter import JSONReporter, XMLReporter
+from handlers.db_handler import DBConnection
+from handlers.json_handler import JSONHandler
 
 
-class CLIMain:
+class CLIApp:
     """
-    CLI-запуск для обработки данных студентов и комнат.
+    CLI-приложение для обработки данных студентов и комнат.
+
     Параметры:
     - students_path: str — путь к JSON-файлу со студентами
     - rooms_path: str — путь к JSON-файлу с комнатами
@@ -25,8 +34,8 @@ class CLIMain:
         with DBConnection() as db:
             handler = JSONHandler(db, self.rooms_path, self.students_path)
             handler.load_data_to_db({
-                self.rooms_path: 'room',
-                self.students_path: 'student'
+                self.rooms_path: 'rooms',
+                self.students_path: 'students'
             })
 
     def execute_queries(self) -> None:
@@ -43,13 +52,18 @@ class CLIMain:
 
     def save_results(self) -> None:
         """Сохранение результатов в выбранный формат (JSON или XML)."""
-        output_path = f"{RESOURCE_DIR}/{self.output_format}/report.{self.output_format}"
+        output_dir = os.path.join("resources", self.output_format)
+        os.makedirs(output_dir, exist_ok=True)
+
+        output_path = os.path.join(output_dir, f"report.{self.output_format}")
+
         if self.output_format == 'json':
             reporter = JSONReporter()
         elif self.output_format == 'xml':
             reporter = XMLReporter()
         else:
             raise ValueError("Format must be 'json' or 'xml'")
+
         reporter.save(self.results, output_path)
 
     def run(self) -> None:
@@ -61,17 +75,18 @@ class CLIMain:
 
 def main() -> None:
     """
-    Точка входа для CLI-запуска.
-    Пример запуска:
-    python TASKS/task-4/cli_main.py --students ../../resources/json/students.json --rooms ../../resources/json/rooms.json --format json
-    python TASKS/task-4/cli_main.py --students ../../resources/json/students.json --rooms ../../resources/json/rooms.json --format xml
+    Точка входа для CLI-приложения.
+
+    python TASKS/task-4/cli_main.py --students "resources/json/students.json" --rooms "resources/json/rooms.json" --format json
+    python TASKS/task-4/cli_main.py --students "resources/json/students.json" --rooms "resources/json/rooms.json" --format xml
     """
     parser = argparse.ArgumentParser(description="Student-Room Data Processor")
     parser.add_argument('--students', required=True, help="Path to students JSON file")
     parser.add_argument('--rooms', required=True, help="Path to rooms JSON file")
     parser.add_argument('--format', required=True, choices=['json', 'xml'], help="Output format")
     args = parser.parse_args()
-    app = CLIMain(args.students, args.rooms, args.format)
+
+    app = CLIApp(args.students, args.rooms, args.format)
     app.run()
 
 
