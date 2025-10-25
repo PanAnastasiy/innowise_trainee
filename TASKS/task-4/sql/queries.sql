@@ -39,7 +39,7 @@ Execution Time: 7.492 ms
 
 With Indexes
 Planning Time: 0.189 ms
-Execution Time: 8.179 ms
+Execution Time: 7.179 ms
 
 */
 
@@ -66,6 +66,9 @@ Planning Time: 0.184 ms
 Execution Time: 4.218 ms
 
 */
+
+/* В запросе выше разница составляет 115 лет... Грех было бы это не проверить, но это действительно так.
+   Челы 1904 года и 2019 года рождения живут в одной команте... */
 
 SELECT *
 FROM room
@@ -95,6 +98,9 @@ Execution Time: 7.193 ms
 
 
 -- List of rooms where same-sex students live
+
+/* Почти во всех комнатах живут и мужчины и женщины,
+   ввиду этого легче найти комнаты, где живут люди одного пола */
 
 EXPLAIN ANALYZE
 SELECT room.name AS "List of rooms where same-sex students live"

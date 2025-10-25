@@ -7,8 +7,23 @@ from utils.design import Message, Color
 load_dotenv()
 
 class JSONHandler:
+    """
+    Класс для записи данных из json в базу данных.
+
+    Позволяет:
+    - загружать несколько АБСОЛЮТНО ЛЮБЫХ JSON-файлов сразу при инициалзиации объекта;
+    - хранить их содержимое в памяти;
+    - записывать данные в указанные таблицы базы данных с помощью DBConnection.
+    - важно понимать, что структура JSON-файла и соответствующей таблицы должна быть одинаковой,
+     поскольку добавление записей в таблицу идёт по полю json-файла
+      (В students.json ссылка на комнаты в виде поля room), да это своего рода косяк, но реализация прикольная :)
+    """
 
     def __init__(self, db: DBConnection, *json_files: str) -> None:
+        """
+        Инициализирует обработчик, загружая указанные JSON-файлы в память
+        с предварительной установкой соединения с бд.
+        """
         self.db = db
         self.data = {}
         base_dir = os.path.dirname(__file__)
@@ -22,7 +37,12 @@ class JSONHandler:
 
     def load_data_to_db(self, mapping: dict[str, str]):
         """
-        mapping: словарь вида {json_file_path: table_name}
+        Загружает данные из памяти в таблицы базы данных.
+
+        Параметры:
+        ----------
+        mapping : dict[str, str]
+            Словарь соответствий: { "путь_к_json_файлу": "имя_таблицы" }.
         """
         for file_path, table_name in mapping.items():
             if file_path not in self.data:
@@ -37,7 +57,7 @@ class JSONHandler:
                                       Color.YELLOW, Color.LIGHT_WHITE)
                 continue
 
-            # Формируем список колонок и placeholders
+            # Для формирования параметризированного INSERT-запроса приходиться сделать некие преобразования
             columns = records[0].keys()
             columns_str = ", ".join(columns)
             placeholders = ", ".join([f"%({col})s" for col in columns])
