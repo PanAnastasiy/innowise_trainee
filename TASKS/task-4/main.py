@@ -22,4 +22,4 @@ with DBConnection() as student_db:
 
 #-------------------------------------------------------------------------------
 
-# 3. Necessary queries to the database - queries
+# 3. Necessary queries to the database - queries.sql
