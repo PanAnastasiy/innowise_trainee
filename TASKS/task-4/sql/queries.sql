@@ -13,6 +13,11 @@ ORDER BY 2 DESC;
 Without Indexes:
 Planning Time: 0.351 ms
 Execution Time: 5.710 ms
+
+With Indexes
+Planning Time: 2.977 ms
+Execution Time: 4.661 ms
+
 */
 
 
@@ -31,6 +36,11 @@ LIMIT 5;
 Without Indexes:
 Planning Time: 0.285 ms
 Execution Time: 7.492 ms
+
+With Indexes
+Planning Time: 0.189 ms
+Execution Time: 8.179 ms
+
 */
 
 
@@ -50,6 +60,11 @@ LIMIT 5;
 Without Indexes:
 Planning Time: 0.176 ms
 Execution Time: 4.266 ms
+
+With Indexes
+Planning Time: 0.184 ms
+Execution Time: 4.218 ms
+
 */
 
 SELECT *
@@ -72,6 +87,10 @@ Without Indexes:
 Planning Time: 0.141 ms
 Execution Time: 8.465 ms
 
+With Indexes:
+Planning Time: 0.165 ms
+Execution Time: 7.193 ms
+
 */
 
 
@@ -88,4 +107,9 @@ HAVING COUNT(DISTINCT sex) = 1;
 Without Indexes:
 Planning Time: 0.155 ms
 Execution Time: 7.741 ms
+
+With Indexes:
+Planning Time: 0.168 ms
+Execution Time: 6.242 ms
+
 */
