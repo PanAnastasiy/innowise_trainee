@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: ${STUDENT_DB_CONTAINER}
+    env_file:
+      - ../../.env
+    environment:
+      POSTGRES_USER: ${STUDENT_PG_USER}
+      POSTGRES_PASSWORD: ${STUDENT_PG_PASSWORD}
+      POSTGRES_DB: ${STUDENT_DB_NAME}
+    ports:
+      - "${STUDENT_DB_PORT}:5432"
+    volumes:
+      - .:/app
+    restart: always
