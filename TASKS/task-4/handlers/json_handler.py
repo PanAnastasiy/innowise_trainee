@@ -2,7 +2,7 @@ import json
 import os
 from dotenv import load_dotenv
 from .db_handler import DBConnection
-from utils.design import Message, Color
+from TASKS.utils.design import Message, Color
 
 load_dotenv()
 

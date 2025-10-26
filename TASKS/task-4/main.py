@@ -1,4 +1,4 @@
-from consts import STUDENT_JSON_PATH, ROOM_JSON_PATH, RESOURCE_DIR
+from TASKS.consts import STUDENT_JSON_PATH, ROOM_JSON_PATH, RESOURCE_DIR
 from handlers import *
 from data_manager import *
 
