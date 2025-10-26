@@ -1,5 +1,5 @@
-from .message import Message
 from .beauty import Color
+from .message import Message
 
 
 class Developer:

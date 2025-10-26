@@ -65,3 +65,7 @@ isort-fix:
 .PHONY: lint
 lint: black flake8 isort
 	@echo "All linting checks passed!"
+
+.PHONY: pre-coomit
+pre-commit: black flake8 isort
+	poetry run pre-commit run --all-files

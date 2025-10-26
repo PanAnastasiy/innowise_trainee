@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
 
 class Builder:
@@ -15,8 +15,8 @@ class Builder:
             raise ValueError("Необходимо передать либо csv_name, либо df")
 
     def build_histograms(self, columns: list) -> None:
-        import seaborn as sns
         import matplotlib.pyplot as plt
+        import seaborn as sns
 
         sns.set(style="whitegrid", palette="muted")
         num_columns = len(columns)
