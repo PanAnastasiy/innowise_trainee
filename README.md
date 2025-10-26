@@ -11,7 +11,8 @@ The goal of this project is to provide practical experience in:
 - SQL & relational databases (PostgreSQL, Snowflake)
 - Containerized environments (Docker & Docker Compose)
 - Git workflow and version control best practices
-
+- Learn base of new technologies in Big Data
+- 
 Each task is independent and focuses on a specific Big Data skill.
 
 ---
