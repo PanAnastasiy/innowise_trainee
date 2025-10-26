@@ -1,4 +1,3 @@
-
 class Console:
     @staticmethod
     def clear():

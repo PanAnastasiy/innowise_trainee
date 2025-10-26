@@ -33,10 +33,7 @@ class CLIApp:
         """Загрузка данных из JSON-файлов в базу данных."""
         with DBConnection() as db:
             handler = JSONHandler(db, self.rooms_path, self.students_path)
-            handler.load_data_to_db({
-                self.rooms_path: 'rooms',
-                self.students_path: 'students'
-            })
+            handler.load_data_to_db({self.rooms_path: 'rooms', self.students_path: 'students'})
 
     def execute_queries(self) -> None:
         """Выполнение SQL-запросов и сохранение результатов в self.results."""
@@ -47,7 +44,7 @@ class CLIApp:
                 "rooms_smallest_avg_age": executor.rooms_smallest_avg_age(),
                 "rooms_largest_age_diff": executor.rooms_largest_age_diff(),
                 "rooms_different_sex": executor.rooms_different_sex(),
-                "rooms_same_sex": executor.rooms_same_sex()
+                "rooms_same_sex": executor.rooms_same_sex(),
             }
 
     def save_results(self) -> None:

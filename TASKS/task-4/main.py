@@ -7,10 +7,7 @@ with DBConnection() as student_db:
     json_handler = JSONHandler(student_db, ROOM_JSON_PATH, STUDENT_JSON_PATH)
 
     # Тот самый маппинг объектов JSON-файла и таблиц
-    json_handler.load_data_to_db({
-        ROOM_JSON_PATH: 'room',
-        STUDENT_JSON_PATH: 'student'
-    })
+    json_handler.load_data_to_db({ROOM_JSON_PATH: 'room', STUDENT_JSON_PATH: 'student'})
 
 # Выполнение SQL-запросов для последующей записи в файлы XML и JSON
 with DBConnection() as student_db:
@@ -21,7 +18,7 @@ with DBConnection() as student_db:
         "rooms_smallest_avg_age": executor.rooms_smallest_avg_age(),
         "rooms_largest_age_diff": executor.rooms_largest_age_diff(),
         "rooms_different_sex": executor.rooms_different_sex(),
-        "rooms_same_sex": executor.rooms_same_sex()
+        "rooms_same_sex": executor.rooms_same_sex(),
     }
 
 # Запись результов запросов в файлы

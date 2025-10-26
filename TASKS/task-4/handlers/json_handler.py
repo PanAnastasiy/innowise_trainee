@@ -6,6 +6,7 @@ from utils.design import Message, Color
 
 load_dotenv()
 
+
 class JSONHandler:
     """
     Класс для записи данных из json в базу данных.
@@ -46,15 +47,17 @@ class JSONHandler:
         """
         for file_path, table_name in mapping.items():
             if file_path not in self.data:
-                Message.print_message(f"Файл {file_path} не найден!",
-                                      Color.RED, Color.LIGHT_WHITE)
+                Message.print_message(f"Файл {file_path} не найден!", Color.RED, Color.LIGHT_WHITE)
                 continue
 
             records = self.data[file_path]
             if not records:
 
-                Message.print_message(f"Файл {file_path} не содержит ни одной записи!",
-                                      Color.YELLOW, Color.LIGHT_WHITE)
+                Message.print_message(
+                    f"Файл {file_path} не содержит ни одной записи!",
+                    Color.YELLOW,
+                    Color.LIGHT_WHITE,
+                )
                 continue
 
             # Для формирования параметризированного INSERT-запроса приходиться сделать некие преобразования
@@ -65,9 +68,15 @@ class JSONHandler:
             try:
                 for record in records:
                     self.db.execute(query, record)
-                Message.print_message(f"Данные из {file_path} успешно загружены в {table_name}!",
-                                      Color.BLUE, Color.LIGHT_WHITE)
+                Message.print_message(
+                    f"Данные из {file_path} успешно загружены в {table_name}!",
+                    Color.BLUE,
+                    Color.LIGHT_WHITE,
+                )
             except Exception as e:
-                Message.print_message(f"Ошибка при загрузке данных из {file_path} в {table_name}: {e}!",
-                                      Color.RED, Color.LIGHT_WHITE)
+                Message.print_message(
+                    f"Ошибка при загрузке данных из {file_path} в {table_name}: {e}!",
+                    Color.RED,
+                    Color.LIGHT_WHITE,
+                )
                 raise

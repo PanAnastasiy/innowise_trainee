@@ -14,19 +14,19 @@ class DBConnection:
     """
 
     def __init__(
-            self,
-            host: Optional[str] = None,
-            port: Optional[int] = None,
-            database: Optional[str] = None,
-            user: Optional[str] = None,
-            password: Optional[str] = None
+        self,
+        host: Optional[str] = None,
+        port: Optional[int] = None,
+        database: Optional[str] = None,
+        user: Optional[str] = None,
+        password: Optional[str] = None,
     ) -> None:
         self.host = host or os.getenv("STUDENT_DB_HOST")
         self.port = port or int(os.getenv("STUDENT_DB_PORT"))
         self.database = database or os.getenv("STUDENT_DB_NAME")
         self.user = user or os.getenv("STUDENT_PG_USER")
         self.password = password or os.getenv("STUDENT_PG_PASSWORD")
-        self.conn= None
+        self.conn = None
         self.cursor = None
 
     def __enter__(self) -> "DBConnection":
@@ -40,20 +40,16 @@ class DBConnection:
                 port=self.port,
                 database=self.database,
                 user=self.user,
-                password=self.password
+                password=self.password,
             )
             self.cursor = self.conn.cursor(cursor_factory=RealDictCursor)
             Message.print_message(
-                "Соединение с базой данных успешно установлено.",
-                Color.GREEN,
-                Color.LIGHT_WHITE
+                "Соединение с базой данных успешно установлено.", Color.GREEN, Color.LIGHT_WHITE
             )
             return self
         except Exception as e:
             Message.print_message(
-                f"Ошибка подключения к базе данных: {e}",
-                Color.RED,
-                Color.LIGHT_WHITE
+                f"Ошибка подключения к базе данных: {e}", Color.RED, Color.LIGHT_WHITE
             )
             raise
 
@@ -70,12 +66,12 @@ class DBConnection:
             self.conn = None
 
         Message.print_message(
-            "Соединение с базой данных успешно закрыто.",
-            Color.BLUE,
-            Color.LIGHT_WHITE
+            "Соединение с базой данных успешно закрыто.", Color.BLUE, Color.LIGHT_WHITE
         )
 
-    def execute(self, query: str, params: Optional[tuple[Any, ...]] = None) -> Optional[list[dict[str, Any]]]:
+    def execute(
+        self, query: str, params: Optional[tuple[Any, ...]] = None
+    ) -> Optional[list[dict[str, Any]]]:
         """
         Выполняет SQL-запрос.
 
@@ -86,7 +82,9 @@ class DBConnection:
         :raises Exception: если запрос завершился с ошибкой.
         """
         if not self.conn:
-            raise RuntimeError("Соединение с БД не установлено. Используйте 'with DBConnection() as db:'")
+            raise RuntimeError(
+                "Соединение с БД не установлено. Используйте 'with DBConnection() as db:'"
+            )
 
         try:
             self.cursor.execute(query, params)
@@ -97,9 +95,5 @@ class DBConnection:
         except Exception as e:
             if self.conn:
                 self.conn.rollback()
-            Message.print_message(
-                f"Ошибка выполнения запроса: {e}",
-                Color.RED,
-                Color.LIGHT_WHITE
-            )
+            Message.print_message(f"Ошибка выполнения запроса: {e}", Color.RED, Color.LIGHT_WHITE)
             raise

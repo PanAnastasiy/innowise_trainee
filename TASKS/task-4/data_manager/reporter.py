@@ -65,6 +65,7 @@ class XMLReporter(OutputReporter):
         :return: Корректное имя XML-тега.
         """
         import re
+
         tag = tag.replace(' ', '_').replace("'", "_")
         tag = re.sub(r'[^a-zA-Z0-9_-]', '', tag)
         if tag and tag[0].isdigit():

@@ -16,9 +16,7 @@ class Message:
 
     @staticmethod
     def print_matrix(array: np.ndarray, message: str):
-        Message.print_message(message,
-                              Color.BLUE,
-                              Color.LIGHT_WHITE)
+        Message.print_message(message, Color.BLUE, Color.LIGHT_WHITE)
         rows, columns = array.shape
         for t in range(rows):
             print(Color.BOLD + Color.PURPLE + '(  ', end='')
