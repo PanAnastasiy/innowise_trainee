@@ -1,41 +1,48 @@
-import os
-
-from dotenv import load_dotenv
-from pyspark.sql.functions import count, desc
-
-from TASKS.task_5.spark_handler import SparkHandler
-
-load_dotenv()
-
-db_properties = {
-    "user": os.getenv('PG_USER'),
-    "password": os.getenv('PG_PASSWORD'),
-    "driver": "org.postgresql.Driver",
-}
-
-# путь к PostgreSQL драйверу
-pg_jar = r"C:\Users\user\AppData\Roaming\JetBrains\DataGrip2025.2\jdbc-drivers\PostgreSQL\42.7.3\org\postgresql\postgresql\42.7.3\postgresql-42.7.3.jar"
-
-# передаём jars в SparkHandler
-handler = SparkHandler(os.getenv('DB_PAGILA_URL'), db_properties, jars=pg_jar)
-
-film = handler.get_data_from_table('film')
-category = handler.get_data_from_table('category')
-film_category = handler.get_data_from_table('film_category')
-actor = handler.get_data_from_table('actor')
-film_actor = handler.get_data_from_table('film_actor')
-rental = handler.get_data_from_table('rental')
-inventory = handler.get_data_from_table('inventory')
-payment = handler.get_data_from_table('payment')
-customer = handler.get_data_from_table('customer')
-address = handler.get_data_from_table('address')
-city = handler.get_data_from_table('city')
+from TASKS.task_5.handlers.main_handler import MainHandler
+from TASKS.task_5.solution import Solution
+from TASKS.utils.design import Color, Console, Developer, Message
 
 
-df1 = (
-    film_category.join(category, "category_id")
-    .groupBy.agg(count("film_id").alias("num_movies"))
-    .orderBy(desc("num_movies"))
-)
+class Main:
 
-df1.show()
+    @staticmethod
+    def main():
+        sol = Solution()
+
+        while True:
+            Console.clear()
+            MainHandler.menu()
+            your_choice = MainHandler.getChoice()
+            Console.clear()
+            match your_choice:
+                case '1':
+                    sol.task_1()
+                case '2':
+                    sol.task_2()
+                case '3':
+                    sol.task_3()
+                case '4':
+                    sol.task_4()
+                case '5':
+                    sol.task_5()
+                case '6':
+                    sol.task_6()
+                case '7':
+                    sol.task_7()
+                case '0':
+                    Message.print_message(
+                        'Осуществляем выход из программы...', Color.PURPLE, Color.LIGHT_WHITE
+                    )
+                    exit(0)
+                case '?':
+                    Developer.print_info_of_developer()
+                    Message.wait_for_enter()
+            if your_choice not in '12345670?':
+                Message.print_message(
+                    'Введен некорректный номер подзадачи.', Color.RED, Color.LIGHT_WHITE
+                )
+                Message.wait_for_enter()
+
+
+if __name__ == "__main__":
+    Main.main()

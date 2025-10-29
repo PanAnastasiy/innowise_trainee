@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from TASKS.task_5.spark_handler import SparkHandler
+from TASKS.task_5.handlers.spark_handler import SparkHandler
 
 load_dotenv()
 

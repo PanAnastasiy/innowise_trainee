@@ -26,6 +26,11 @@ class Message:
             print(Color.BOLD + Color.PURPLE + ')\n', end='')
 
     @staticmethod
+    def preview():
+        Message.print_message('Добро пожаловать в программу!', Color.GREEN, Color.LIGHT_WHITE)
+        Message.print_message('Стажировка Задание по Spark', Color.PURPLE, Color.LIGHT_WHITE)
+
+    @staticmethod
     def wait_for_enter():
         Message.print_message("Нажмите Enter, чтобы продолжить...", Color.BLUE, Color.CYAN)
         input()
