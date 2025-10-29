@@ -30,7 +30,8 @@ dependencies = [
     "snowballstemmer==3.0.1",
     "tzdata==2025.2",
     "seaborn (>=0.13.2,<0.14.0)",
-    "pytest (>=8.4.2,<9.0.0)"
+    "pytest (>=8.4.2,<9.0.0)",
+    "pyspark (>=4.0.1,<5.0.0)"
 ]
 
 [tool.poetry.group.dev.dependencies]
