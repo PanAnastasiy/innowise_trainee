@@ -1,12 +1,16 @@
+from TASKS.consts import BACKGROUND_MUSIC_PATH
 from TASKS.task_5.handlers.main_handler import MainHandler
 from TASKS.task_5.solution import Solution
 from TASKS.utils.design import Color, Console, Developer, Message
+from TASKS.utils.music import BackgroundMusic
 
 
 class Main:
 
     @staticmethod
     def main():
+        music = BackgroundMusic(BACKGROUND_MUSIC_PATH, loop=True, volume=0.3)
+        # music.play()
         sol = Solution()
 
         while True:
@@ -33,6 +37,7 @@ class Main:
                     Message.print_message(
                         'Осуществляем выход из программы...', Color.PURPLE, Color.LIGHT_WHITE
                     )
+                    music.stop()
                     exit(0)
                 case '?':
                     Developer.print_info_of_developer()

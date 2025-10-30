@@ -53,7 +53,6 @@ class SparkHandler:
         Message.print_message('SparkHandler инициализирован!', Color.GREEN, Color.LIGHT_WHITE)
 
     def get_data_from_table(self, table_name: str) -> pd.DataFrame:
-        """Чтение таблицы из PostgreSQL в Pandas через Spark"""
         try:
             df_spark = self.spark.read.jdbc(
                 url=self.db_url, table=table_name, properties=self.db_properties
@@ -63,7 +62,6 @@ class SparkHandler:
                 Color.PURPLE,
                 Color.LIGHT_WHITE,
             )
-            # Преобразуем Spark DataFrame в Pandas DataFrame
             return df_spark
         except Exception as e:
             Message.print_message(
@@ -72,7 +70,6 @@ class SparkHandler:
             return None
 
     def execute_query(self, query: str) -> pd.DataFrame:
-        """Выполнение произвольного SQL запроса через Spark"""
         try:
             df_spark = (
                 self.spark.read.format("jdbc")
@@ -84,9 +81,9 @@ class SparkHandler:
                 .load()
             )
             Message.print_message('SQL-запрос выполнен успешно!', Color.GREEN, Color.LIGHT_WHITE)
-            return df_spark.toPandas()
+            return df_spark
         except Exception as e:
             Message.print_message(
                 f'Ошибка выполнения SQL-запроса: {e}', Color.RED, Color.LIGHT_WHITE
             )
-            return pd.DataFrame()
+            return None
