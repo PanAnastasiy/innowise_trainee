@@ -1,9 +1,9 @@
 import os
+from typing import Any, Callable
 
 from dotenv import load_dotenv
-from pyspark.sql import Window
-from pyspark.sql.functions import col, concat, count, dense_rank, desc, expr, lit
-from pyspark.sql.functions import round as spark_round
+from pyspark.sql import DataFrame, Window
+from pyspark.sql.functions import concat, count, dense_rank, desc, lit
 from pyspark.sql.functions import sum as spark_sum
 from pyspark.sql.functions import unix_timestamp, when
 
@@ -18,17 +18,21 @@ db_properties = {
     "driver": "org.postgresql.Driver",
 }
 
+pg_jar = "jars/postgresql-42.7.3.jar"
 
-pg_jar = r"C:\Users\user\AppData\Roaming\JetBrains\DataGrip2025.2\jdbc-drivers\PostgreSQL\42.7.3\org\postgresql\postgresql\42.7.3\postgresql-42.7.3.jar"
 
+def spark_task(title: str) -> Callable[[Callable[..., DataFrame]], Callable[..., None]]:
+    """
+    Декоратор для обёртки задач Spark.
+    Выводит заголовок, выполняет функцию и показывает результат с помощью df.show().
+    """
 
-def spark_task(title: str):
-    def decorator(func):
-        def wrapper(self, *args, **kwargs):
+    def decorator(func: Callable[..., DataFrame]) -> Callable[..., None]:
+        def wrapper(self, *args: Any, **kwargs: Any) -> None:
             Message.print_message(title, Color.YELLOW, Color.LIGHT_WHITE)
             Message.print_message('Чуть-чуть подожди...', Color.CYAN, Color.LIGHT_WHITE)
 
-            df = func(self, *args, **kwargs)
+            df: DataFrame = func(self, *args, **kwargs)
 
             if df is not None:
                 df.show(truncate=False)
@@ -41,23 +45,27 @@ def spark_task(title: str):
 
 
 class Solution:
+    """
+    Класс для решения аналитических задач на основе базы данных Pagila с использованием PySpark.
+    """
 
-    def __init__(self):
+    def __init__(self) -> None:
         handler = SparkHandler(os.getenv('DB_PAGILA_URL'), db_properties, jars=pg_jar)
-        self.film = handler.get_data_from_table('film')
-        self.category = handler.get_data_from_table('category')
-        self.film_category = handler.get_data_from_table('film_category')
-        self.actor = handler.get_data_from_table('actor')
-        self.film_actor = handler.get_data_from_table('film_actor')
-        self.rental = handler.get_data_from_table('rental')
-        self.inventory = handler.get_data_from_table('inventory')
-        self.payment = handler.get_data_from_table('payment')
-        self.customer = handler.get_data_from_table('customer')
-        self.address = handler.get_data_from_table('address')
-        self.city = handler.get_data_from_table('city')
+        self.film: DataFrame = handler.get_data_from_table('film')
+        self.category: DataFrame = handler.get_data_from_table('category')
+        self.film_category: DataFrame = handler.get_data_from_table('film_category')
+        self.actor: DataFrame = handler.get_data_from_table('actor')
+        self.film_actor: DataFrame = handler.get_data_from_table('film_actor')
+        self.rental: DataFrame = handler.get_data_from_table('rental')
+        self.inventory: DataFrame = handler.get_data_from_table('inventory')
+        self.payment: DataFrame = handler.get_data_from_table('payment')
+        self.customer: DataFrame = handler.get_data_from_table('customer')
+        self.address: DataFrame = handler.get_data_from_table('address')
+        self.city: DataFrame = handler.get_data_from_table('city')
 
     @spark_task("Количество фильмов каждой категории:")
-    def task_1(self):
+    def task_1(self) -> DataFrame:
+        """Возвращает количество фильмов в каждой категории, упорядоченных по убыванию."""
         return (
             self.film_category.join(self.category, "category_id")
             .groupBy("name")
@@ -66,7 +74,8 @@ class Solution:
         )
 
     @spark_task("Самые популярные актёры:")
-    def task_2(self):
+    def task_2(self) -> DataFrame:
+        """Возвращает топ-10 актёров по количеству прокатов фильмов."""
         return (
             self.actor.join(self.film_actor, "actor_id", "left")
             .join(self.inventory, "film_id", "left")
@@ -80,7 +89,8 @@ class Solution:
         )
 
     @spark_task("Самые прибыльные категории:")
-    def task_3(self):
+    def task_3(self) -> DataFrame:
+        """Возвращает категорию с наибольшей суммой дохода по платежам."""
         return (
             self.category.join(self.film_category, "category_id", "left")
             .join(self.inventory, "film_id", "left")
@@ -93,7 +103,8 @@ class Solution:
         )
 
     @spark_task("Фильмы, которые пока что не в прокате:")
-    def task_4(self):
+    def task_4(self) -> DataFrame:
+        """Возвращает список фильмов, для которых нет записей в инвентаре."""
         return (
             self.film.join(self.inventory, "film_id", "left")
             .filter(self.inventory.inventory_id.isNull())
@@ -102,7 +113,8 @@ class Solution:
         )
 
     @spark_task("Топ 3 актёров в категории фильмов <Дети>:")
-    def task_5(self):
+    def task_5(self) -> DataFrame:
+        """Возвращает топ-3 актёров по количеству фильмов в категории 'Children'."""
         df = (
             self.actor.join(self.film_actor, "actor_id")
             .join(self.film_category, "film_id")
@@ -122,7 +134,8 @@ class Solution:
         )
 
     @spark_task("Активность гостей по городам:")
-    def task_6(self):
+    def task_6(self) -> DataFrame:
+        """Возвращает количество активных и неактивных клиентов по городам."""
         return (
             self.customer.join(self.address, "address_id")
             .join(self.city, "city_id")
@@ -139,8 +152,12 @@ class Solution:
         )
 
     @spark_task("Лучшие категории по просмотрам, включающие заданные символы:")
-    def task_7(self):
-        base = (
+    def task_7(self) -> DataFrame:
+        """
+        Возвращает лучшие категории фильмов по суммарному времени просмотров,
+        разделяя их по городам, начинающимся с 'A' и содержащим '-'.
+        """
+        intermediate = (
             self.category.join(self.film_category, "category_id")
             .join(self.inventory, "film_id")
             .join(self.rental, "inventory_id")
@@ -150,24 +167,4 @@ class Solution:
             .withColumn(
                 "hours", (unix_timestamp("return_date") - unix_timestamp("rental_date")) / 3600
             )
-            .groupBy("name")
-            .agg(spark_round(spark_sum("hours"), 2).alias("total_hours"))
         )
-
-        df_a = (
-            base.join(self.city, "city_id", "inner")
-            .filter(col("city").ilike("a%"))
-            .orderBy(desc("total_hours"))
-            .limit(1)
-            .withColumn("group", expr("'Cities starting with A'"))
-        )
-
-        df_dash = (
-            base.join(self.city, "city_id", "inner")
-            .filter(col("city").contains("-"))
-            .orderBy(desc("total_hours"))
-            .limit(1)
-            .withColumn("group", expr("'Cities with -'"))
-        )
-
-        return df_a.unionByName(df_dash)

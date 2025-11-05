@@ -1,6 +1,6 @@
 from TASKS.consts import BACKGROUND_MUSIC_PATH
 from TASKS.task_5.handlers.main_handler import MainHandler
-from TASKS.task_5.solution import Solution
+from TASKS.task_5.handlers.solution_handler import Solution
 from TASKS.utils.design import Color, Console, Developer, Message
 from TASKS.utils.music import BackgroundMusic
 
@@ -10,9 +10,8 @@ class Main:
     @staticmethod
     def main():
         music = BackgroundMusic(BACKGROUND_MUSIC_PATH, loop=True, volume=0.3)
-        # music.play()
+        music.play()
         sol = Solution()
-
         while True:
             Console.clear()
             MainHandler.menu()
