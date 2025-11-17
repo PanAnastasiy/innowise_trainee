@@ -1,9 +1,15 @@
-RESOURCE_DIR = '../../resources'
+import os
 
-DF_CSV_PATH = '../../resources/csv/adult.data.csv'
-NUMPY_CSV_PATH = '../../resources/csv/cereal.csv'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-ROOM_JSON_PATH = '../resources/json/rooms.json'
-STUDENT_JSON_PATH = '../resources/json/students.json'
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
 
-BACKGROUND_MUSIC_PATH = '../../resources/music/background.mp3'
+RESOURCE_DIR = os.path.join(PROJECT_ROOT, "resources")
+
+DF_CSV_PATH = os.path.join(RESOURCE_DIR, "csv", "adult.data.csv")
+NUMPY_CSV_PATH = os.path.join(RESOURCE_DIR, "csv", "cereal.csv")
+
+ROOM_JSON_PATH = os.path.join(RESOURCE_DIR, "json", "rooms.json")
+STUDENT_JSON_PATH = os.path.join(RESOURCE_DIR, "json", "students.json")
+
+BACKGROUND_MUSIC_PATH = os.path.join(RESOURCE_DIR, "music", "background.mp3")
