@@ -9,6 +9,8 @@ repos:
         pass_filenames: false
 
       - id: black
+        exclude: |
+          ^logs/
         name: black
         entry: poetry run black .
         language: system
