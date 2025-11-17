@@ -1,10 +1,8 @@
-
--- Стандартный индекс для ускорения соединений между таблицами student и room
+-- Standard index to speed up joins between student and room tables
 CREATE INDEX idx_student_room_id ON student(room);
 
--- Стандартный индекс для оптимизации запросов, где выполняются вычисления по возрасту студентов
-
+-- Standard index to optimize queries calculating student age
 CREATE INDEX idx_student_birthday ON student(birthday);
 
--- Стандартный индекс для ускорения агрегаций и фильтрации по полу студентов
+-- Standard index to accelerate aggregations and filtering by student sex
 CREATE INDEX idx_student_sex ON student(sex);

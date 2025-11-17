@@ -1,30 +1,41 @@
-# Task 4 — Анализ данных о студентах и комнатах
+# Task 4 — Student and Room Data Analysis
 
-Проект выполняет анализ данных о студентах и их распределении по комнатам, используя PostgreSQL в качестве базы данных.
-Результаты сохраняются в форматах **JSON** и **XML**.
+This project performs analysis of students and their room assignments using **PostgreSQL** as the database.
+The results are exported in **JSON** and **XML** formats.
 
+---
 
-####  1. Using PostgreSQL database to create a data schema corresponding to the files in the attachment.
+#### 1. Using PostgreSQL database to create a data schema corresponding to the files in the attachment
 
-Был создан скрипт для генерации базы данных, согласно схеме связей в json-файлах - **`students-schema.sql`**.
+A script was created to generate the database according to the relationships in the JSON files — **`students-schema.sql`**.
 
-####  2. Write a script to load these two files and write data to the database.
+---
 
-Были созданы классы обработчики для соединения (**DBConnection**) и загрузки данных (**JSONHandler**) в бд.
+#### 2. Write a script to load these two files and write data to the database
 
-####  3. Write necessary queries to the database
+Handler classes were implemented for database connections (**DBConnection**) and loading JSON data into the database (**JSONHandler**).
 
-Был создан скрипт для реализации запросов к бд с анализом их выполнения - **`queries.sql`**.
+---
 
-####  4. Propose options for optimizing queries using indexes. As a result we need to generate a SQL query that adds the required indexes.
+#### 3. Write necessary queries to the database
 
-Для ускорения выполнения запросов добавлены индексы в **`create-indexes.sql`**
-По итогу запросы выполняются значительно быстрее за счёт оптимизированных индексов.
+A script was created to implement queries on the database and analyze their results — **`queries.sql`**.
 
-####  5. Unload the result in JSON or XML format
+---
 
-Были реализованы классы для корректного форматирования и сохранения в нужный формат результатов SQL-запросов (**JSONReporter** и **XMLReporter**).
+#### 4. Propose options for optimizing queries using indexes. As a result we need to generate a SQL query that adds the required indexes
 
-####  6. The command interface should support some input parameters
+Indexes were added to improve query performance — **`create-indexes.sql`**.
+As a result, the queries run significantly faster due to optimized indexing.
 
-Архитектура решения разработана с использованием принципов ООП и SOLID, обеспечивая четкое разделение ответственности.
+---
+
+#### 5. Unload the result in JSON or XML format
+
+Classes were implemented for correctly formatting and saving SQL query results in the desired output format (**JSONReporter** and **XMLReporter**).
+
+---
+
+#### 6. The command interface should support some input parameters
+
+The solution architecture follows **OOP** and **SOLID** principles, providing a clear separation of responsibilities.
