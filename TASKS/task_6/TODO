@@ -1,0 +1,42 @@
+In this task you need to locally deploy and configure a working environment
+ with all necessary tools:
+
+Airflow;
+Python;
+Pandas;
+MongoDB.
+
+
+In this task you need to create a DAG to process
+ data (Airflow Data) and load it into MongoDB.
+
+
+
+The DAG should consist of several tasks:
+
+Create a Sensor that will react to the appearance of
+our data file in the folder.
+
+After the Sensor is triggered, a task.branch should run which checks if the file is empty or not.
+Basic Flow
+3.1. If the file is empty, bash script that logs the fact that the file is empty
+
+3.2. If the file contains data, the following tasks should run, which will be responsible for data processing. All data processing tasks should be organized into a separate TaskGroup. Each task should be responsible for a separate functionality:
+
+Replace all "null" values with "-";
+Sort data by created_date;
+Remove all unnecessary characters from the content column (e.g. smiley faces, etc.), leaving only text and punctuation marks.
+
+
+After performing all transformation tasks, using Dataset Data-aware scheduling create a second DAG, which will be triggered by changes to the final dataset and will load the processed data into MongoDB. This also requires you to configure MongoDB and the Connections configuration in Airflow locally.
+
+
+
+Once you have moved all the processed data to MongoDB, run the following queries (directly in MongoDB, for example, the Aggregations tab in MongoDB Compass):
+
+Top 5 frequently occurring comments
+All entries where the “content” field is less than 5 characters long;
+Average rating for each day (the result should be in timestamp type).
+
+
+Upload the completed task to the GitHub repository. Add a screenshot of your DAG in Airflow to your README file.

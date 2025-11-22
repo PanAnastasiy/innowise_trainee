@@ -168,3 +168,4 @@ class Solution:
                 "hours", (unix_timestamp("return_date") - unix_timestamp("rental_date")) / 3600
             )
         )
+        return intermediate
